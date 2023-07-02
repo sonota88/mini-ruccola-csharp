@@ -1,5 +1,9 @@
 This is a port of the compiler part of [vm2gol-v2 (Ruby version)](https://github.com/sonota88/vm2gol-v2).
 
+C#で簡単な自作言語のコンパイラを書いた  
+https://qiita.com/sonota88/items/c0a5bf76d7eb3aa4c507
+
+
 ```
   $ mcs -help | grep VERSION
    -sdk:VERSION         Specifies SDK version of referenced assemblies
