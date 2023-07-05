@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 
-class Json {
-
-    public static NodeList Parse(string json) {
+class Json
+{
+    public static NodeList Parse(string json)
+    {
         var parser = new Json();
         (NodeList List, int _) retval = parser.ParseList(json);
         return retval.List;
     }
 
-    public (NodeList, int) ParseList(string json) {
+    public (NodeList, int) ParseList(string json)
+    {
         int pos = 1; // skip first '['
 
         var list = new NodeList();
@@ -50,11 +52,13 @@ class Json {
         return (list, pos);
     }
 
-    public static void Print(NodeList list) {
+    public static void Print(NodeList list)
+    {
         PrintList(list, 0);
     }
 
-    private static void PrintList(NodeList list, int lv) {
+    private static void PrintList(NodeList list, int lv)
+    {
         Utils.Print("[");
         Utils.Print("\n");
 
@@ -72,7 +76,8 @@ class Json {
         Utils.Print("]");
     }
 
-    private static void PrintNode(Node node, int lv) {
+    private static void PrintNode(Node node, int lv)
+    {
         PrintIndent(lv);
 
         switch (node.Type) {
@@ -92,10 +97,10 @@ class Json {
         }
     }
 
-    private static void PrintIndent(int lv) {
+    private static void PrintIndent(int lv)
+    {
         for (int i = 0; i < lv; i++) {
             Utils.Print("  ");
         }
     }
-
 }

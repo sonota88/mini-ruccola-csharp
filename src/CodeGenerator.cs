@@ -1,14 +1,16 @@
 using System;
 
-class CodeGenerator {
-
+class CodeGenerator
+{
     private int _labelId;
 
-    public CodeGenerator() {
+    public CodeGenerator()
+    {
         this._labelId = 0;
     }
 
-    public void Run() {
+    public void Run()
+    {
         string json = Utils.ReadStdInAll();
         NodeList ast = Json.Parse(json);
 
@@ -17,19 +19,22 @@ class CodeGenerator {
 
     // --------------------------------
 
-    private void _GenExpr_add() {
+    private void _GenExpr_add()
+    {
         Puts("  pop reg_b");
         Puts("  pop reg_a");
         Puts("  add_ab");
     }
 
-    private void _GenExpr_mult() {
+    private void _GenExpr_mult()
+    {
         Puts("  pop reg_b");
         Puts("  pop reg_a");
         Puts("  mult_ab");
     }
 
-    private void _GenExpr_eq_neq(VarList fnArgs, VarList lvars, Node expr, bool isEq) {
+    private void _GenExpr_eq_neq(VarList fnArgs, VarList lvars, Node expr, bool isEq)
+    {
         int labelId = NextLabelId();
         string labelThen = $"then_{labelId}";
         string labelEnd;
@@ -62,15 +67,18 @@ class CodeGenerator {
         Puts($"label {labelEnd}");
     }
 
-    private void _GenExpr_eq(VarList fnArgs, VarList lvars, Node expr) {
+    private void _GenExpr_eq(VarList fnArgs, VarList lvars, Node expr)
+    {
         _GenExpr_eq_neq(fnArgs, lvars, expr, true);
     }
 
-    private void _GenExpr_neq(VarList fnArgs, VarList lvars, Node expr) {
+    private void _GenExpr_neq(VarList fnArgs, VarList lvars, Node expr)
+    {
         _GenExpr_eq_neq(fnArgs, lvars, expr, false);
     }
 
-    private void _GenExpr_binary(VarList fnArgs, VarList lvars, Node expr) {
+    private void _GenExpr_binary(VarList fnArgs, VarList lvars, Node expr)
+    {
         NodeList xs = expr.Listval;
         string op = xs.GetStr(0);
         Node lhs = xs.Get(1);
@@ -95,7 +103,8 @@ class CodeGenerator {
         }
     }
 
-    private void GenExpr(VarList fnArgs, VarList lvars, Node expr) {
+    private void GenExpr(VarList fnArgs, VarList lvars, Node expr)
+    {
         switch (expr.Type) {
             case NodeType.INT:
                 Puts($"  cp {expr.Intval} reg_a");
@@ -121,7 +130,8 @@ class CodeGenerator {
         }
     }
 
-    private void GenReturn(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenReturn(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         if (stmt.Count == 2) {
             Node expr = stmt.Get(1);
             GenExpr(fnArgs, lvars, expr);
@@ -131,7 +141,8 @@ class CodeGenerator {
         Puts("  ret");
     }
 
-    private void _GenSet(VarList fnArgs, VarList lvars, string varName, Node expr) {
+    private void _GenSet(VarList fnArgs, VarList lvars, string varName, Node expr)
+    {
         GenExpr(fnArgs, lvars, expr);
 
         if (lvars.Includes(varName)) {
@@ -144,14 +155,16 @@ class CodeGenerator {
         }
     }
 
-    private void GenSet(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenSet(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         string varName = stmt.GetStr(1);
         Node expr = stmt.Get(2);
 
         _GenSet(fnArgs, lvars, varName, expr);
     }
 
-    private void _GenCall(VarList fnArgs, VarList lvars, NodeList funcall) {
+    private void _GenCall(VarList fnArgs, VarList lvars, NodeList funcall)
+    {
         string funcallName = funcall.GetStr(0);
         NodeList funcallArgs = funcall.Rest();
 
@@ -166,12 +179,14 @@ class CodeGenerator {
         Puts($"  add_sp {funcallArgs.Count}");
     }
 
-    private void GenCall(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenCall(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         NodeList funcall = stmt.GetList(1);
         _GenCall(fnArgs, lvars, funcall);
     }
 
-    private void GenCallSet(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenCallSet(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         string varName = stmt.GetStr(1);
         NodeList funcall = stmt.GetList(2);
 
@@ -181,7 +196,8 @@ class CodeGenerator {
         Puts($"  cp reg_a [bp:{disp}]");
     }
 
-    private void GenWhile(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenWhile(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         Node condExpr = stmt.Get(1);
         NodeList stmts = stmt.GetList(2);
 
@@ -208,7 +224,8 @@ class CodeGenerator {
         Puts("");
     }
 
-    private void GenCase(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenCase(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         NodeList whenClauses = stmt.Rest();
 
         int labelId = NextLabelId();
@@ -239,17 +256,20 @@ class CodeGenerator {
         Puts($"label {labelEnd}");
     }
 
-    private void _GenVmComment(string comment) {
+    private void _GenVmComment(string comment)
+    {
         string _comment = comment.Replace(" ", "~");
         Puts($"  _cmt {_comment}");
     }
 
-    private void GenVmComment(NodeList stmt) {
+    private void GenVmComment(NodeList stmt)
+    {
         string comment = stmt.GetStr(1);
         _GenVmComment(comment);
     }
 
-    private void GenStmt(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenStmt(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         switch (stmt.GetStr(0)) {
             case "return"  : GenReturn( fnArgs, lvars, stmt);
                 break;
@@ -270,14 +290,16 @@ class CodeGenerator {
         }
     }
 
-    private void GenStmts(VarList fnArgs, VarList lvars, NodeList stmts) {
+    private void GenStmts(VarList fnArgs, VarList lvars, NodeList stmts)
+    {
         foreach (Node node in stmts.Data) {
             NodeList stmt = node.Listval;
             GenStmt(fnArgs, lvars, stmt);
         }
     }
 
-    private void GenVar(VarList fnArgs, VarList lvars, NodeList stmt) {
+    private void GenVar(VarList fnArgs, VarList lvars, NodeList stmt)
+    {
         Puts("  add_sp -1");
 
         if (stmt.Count == 3) {
@@ -287,7 +309,8 @@ class CodeGenerator {
         }
     }
 
-    private void GenFuncDef(NodeList funcDef) {
+    private void GenFuncDef(NodeList funcDef)
+    {
         string fnName = funcDef.GetStr(1);
         VarList fnArgs = VarList.From(funcDef.GetList(2));
         NodeList stmts = funcDef.GetList(3);
@@ -314,19 +337,21 @@ class CodeGenerator {
         Puts("  ret");
     }
 
-    private void GenTopStmt(NodeList topStmt) {
+    private void GenTopStmt(NodeList topStmt)
+    {
         GenFuncDef(topStmt);
     }
 
-    private void GenTopStmts(NodeList topStmts) {
+    private void GenTopStmts(NodeList topStmts)
+    {
         foreach (Node node in topStmts.Data) {
             NodeList topStmt = node.Listval;
             GenTopStmt(topStmt);
         }
     }
 
-
-    private void GenBuiltinSetVram() {
+    private void GenBuiltinSetVram()
+    {
         Puts("");
         Puts("label set_vram");
         AsmPrologue();
@@ -335,7 +360,8 @@ class CodeGenerator {
         Puts("  ret");
     }
 
-    private void GenBuiltinGetVram() {
+    private void GenBuiltinGetVram()
+    {
         Puts("");
         Puts("label set_vram");
         AsmPrologue();
@@ -344,7 +370,8 @@ class CodeGenerator {
         Puts("  ret");
     }
 
-    private void Codegen(NodeList ast) {
+    private void Codegen(NodeList ast)
+    {
         Puts("  call main");
         Puts("  exit");
 
@@ -358,31 +385,37 @@ class CodeGenerator {
 
     // --------------------------------
 
-    private int FnArgDisp(VarList fnArgs, String fnArgName) {
+    private int FnArgDisp(VarList fnArgs, String fnArgName)
+    {
         int i = fnArgs.IndexOf(fnArgName);
         return i + 2;
     }
 
-    private int LvarDisp(VarList lvars, String lvarName) {
+    private int LvarDisp(VarList lvars, String lvarName)
+    {
         int i = lvars.IndexOf(lvarName);
         return -(i + 1);
     }
 
-    private void AsmPrologue() {
+    private void AsmPrologue()
+    {
         Puts("  push bp");
         Puts("  cp sp bp");
     }
 
-    private void AsmEpilogue() {
+    private void AsmEpilogue()
+    {
         Puts("  cp bp sp");
         Puts("  pop bp");
     }
 
-    private void Puts(object arg) {
+    private void Puts(object arg)
+    {
         Utils.Puts(arg);
     }
 
-    int NextLabelId() {
+    int NextLabelId()
+    {
         this._labelId++;
         return this._labelId;
     }

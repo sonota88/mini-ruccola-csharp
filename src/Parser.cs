@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-class Parser {
-
+class Parser
+{
     List<Token> Tokens;
     int Pos;
 
-    public Parser() {
+    public Parser()
+    {
         Tokens = new List<Token>();
         Pos = 0;
     }
 
-    public void Run() {
+    public void Run()
+    {
         ReadTokens();
         NodeList ast = Parse();
         Json.Print(ast);
@@ -19,7 +21,8 @@ class Parser {
 
     // --------------------------------
 
-    private Node ParseArg() {
+    private Node ParseArg()
+    {
         Token t = Peek();
 
         switch (t.Kind) {
@@ -34,7 +37,8 @@ class Parser {
         }
     }
 
-    private NodeList ParseArgs() {
+    private NodeList ParseArgs()
+    {
         var args = new NodeList();
 
         if (Peek().Str == ")") {
@@ -51,7 +55,8 @@ class Parser {
         return args;
     }
 
-    private Node ParseExprFactor() {
+    private Node ParseExprFactor()
+    {
         Token t = Peek();
 
         switch (t.Kind) {
@@ -71,7 +76,8 @@ class Parser {
         }
     }
 
-    private bool IsBinOp(Token t) {
+    private bool IsBinOp(Token t)
+    {
         return (
                 t.Str == "+"
                 || t.Str == "*"
@@ -80,7 +86,8 @@ class Parser {
                 );
     }
 
-    private Node ParseExpr() {
+    private Node ParseExpr()
+    {
         Node expr = ParseExprFactor();
 
         while (IsBinOp(Peek())) {
@@ -99,7 +106,8 @@ class Parser {
         return expr;
     }
 
-    private NodeList ParseReturn() {
+    private NodeList ParseReturn()
+    {
         var stmt = new NodeList();
         stmt.Add("return");
 
@@ -113,7 +121,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseSet() {
+    private NodeList ParseSet()
+    {
         Consume("set");
 
         string varName = Peek().Str;
@@ -132,7 +141,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseFuncall() {
+    private NodeList ParseFuncall()
+    {
         string fnName = Peek().Str;
         Bump();
 
@@ -146,7 +156,8 @@ class Parser {
         return funcall;
     }
 
-    private NodeList ParseCall() {
+    private NodeList ParseCall()
+    {
         Consume("call");
 
         NodeList funcall = ParseFuncall();
@@ -159,7 +170,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseCallSet() {
+    private NodeList ParseCallSet()
+    {
         Consume("call_set");
 
         string varName = Peek().Str;
@@ -178,7 +190,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseWhile() {
+    private NodeList ParseWhile()
+    {
         Consume("while");
 
         Consume("(");
@@ -196,7 +209,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList _ParseWhenClause() {
+    private NodeList _ParseWhenClause()
+    {
         Consume("when");
 
         Consume("(");
@@ -213,7 +227,8 @@ class Parser {
         return whenClause;
     }
 
-    private NodeList ParseCase() {
+    private NodeList ParseCase()
+    {
         Consume("case");
 
         var whenClauses = new NodeList();
@@ -229,7 +244,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseVmComment() {
+    private NodeList ParseVmComment()
+    {
         Consume("_cmt");
         Consume("(");
 
@@ -245,7 +261,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseDebug() {
+    private NodeList ParseDebug()
+    {
         Consume("_debug");
         Consume("(");
         Consume(")");
@@ -256,7 +273,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseStmt() {
+    private NodeList ParseStmt()
+    {
         switch (Peek().Str) {
             case "return"  : return ParseReturn();
             case "set"     : return ParseSet();
@@ -271,7 +289,8 @@ class Parser {
         }
     }
 
-    private NodeList ParseStmts() {
+    private NodeList ParseStmts()
+    {
         var stmts = new NodeList();
         while (Peek().Str != "}") {
             stmts.Add(ParseStmt());
@@ -280,7 +299,8 @@ class Parser {
         return stmts;
     }
 
-    private NodeList ParseVar() {
+    private NodeList ParseVar()
+    {
         var stmt = new NodeList();
         stmt.Add("var");
 
@@ -302,7 +322,8 @@ class Parser {
         return stmt;
     }
 
-    private NodeList ParseFuncDef() {
+    private NodeList ParseFuncDef()
+    {
         var fnDef = new NodeList();
         Consume("func");
 
@@ -334,11 +355,13 @@ class Parser {
         return fnDef;
     }
 
-    private NodeList ParseTopStmt() {
+    private NodeList ParseTopStmt()
+    {
         return ParseFuncDef();
     }
 
-    private NodeList ParseTopStmts() {
+    private NodeList ParseTopStmts()
+    {
         var topStmts = new NodeList();
         topStmts.Add("top_stmts");
 
@@ -349,13 +372,15 @@ class Parser {
         return topStmts;
     }
 
-    private NodeList Parse() {
+    private NodeList Parse()
+    {
         return ParseTopStmts();
     }
 
     // --------------------------------
 
-    private void Consume(string str) {
+    private void Consume(string str)
+    {
         if (Peek().Str == str) {
             Bump();
         } else {
@@ -364,23 +389,28 @@ class Parser {
         }
     }
 
-    private Token Peek() {
+    private Token Peek()
+    {
         return Peek(0);
     }
 
-    private Token Peek(int offset) {
+    private Token Peek(int offset)
+    {
         return Tokens[Pos + offset];
     }
 
-    private bool IsEnd() {
+    private bool IsEnd()
+    {
         return Pos >= Tokens.Count;
     }
 
-    private void Bump() {
+    private void Bump()
+    {
         this.Pos++;
     }
 
-    private void ReadTokens() {
+    private void ReadTokens()
+    {
         string src = Utils.ReadStdInAll();
         string rest = src;
 
@@ -398,5 +428,4 @@ class Parser {
             }
         }
     }
-
 }

@@ -1,8 +1,9 @@
 using System;
 
-public class Lexer {
-
-    public void Run() {
+public class Lexer
+{
+    public void Run()
+    {
         string src = Utils.ReadStdInAll();
 
         int pos = 0;
@@ -48,7 +49,8 @@ public class Lexer {
         }
     }
 
-    private bool IsKw(string str) {
+    private bool IsKw(string str)
+    {
         return (
                 str == "func"
                 || str == "return"
@@ -64,7 +66,8 @@ public class Lexer {
                 );
     }
 
-    private void PrintToken(string kind, string str, int lineno) {
+    private void PrintToken(string kind, string str, int lineno)
+    {
         Utils.Puts($"[{lineno}, \"{kind}\", \"{str}\"]");
     }
 }

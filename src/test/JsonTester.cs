@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 
-class JsonTester {
-    public void Run() {
+class JsonTester
+{
+    public void Run()
+    {
         string json = Utils.ReadStdInAll();
 
         // TestPrint1();
@@ -17,43 +19,50 @@ class JsonTester {
         Json.Print(list);
     }
 
-    void TestPrint1() {
+    void TestPrint1()
+    {
         NodeList list = new NodeList();
         Json.Print(list);
     }
 
-    void TestPrint2() {
+    void TestPrint2()
+    {
         NodeList list = new NodeList();
         list.Add(1);
         Json.Print(list);
     }
 
-    void TestPrint3() {
+    void TestPrint3()
+    {
         NodeList list = new NodeList();
         list.Add("fdsa");
         Json.Print(list);
     }
 
-    void TestPrint4() {
+    void TestPrint4()
+    {
         NodeList list = new NodeList();
         list.Add(-123);
         Json.Print(list);
     }
 
-    void TestPrint5() {
+    void TestPrint5()
+    {
         NodeList list = new NodeList();
         list.Add(123);
         list.Add("fdsa");
         Json.Print(list);
     }
 
-    void TestPrint6() {
+    void TestPrint6()
+    {
         NodeList list = new NodeList();
         list.Add(new NodeList());
         Json.Print(list);
     }
 
-    void TestPrint7() {
+    void TestPrint7()
+    {
         NodeList list = new NodeList();
 
         list.Add(1);
@@ -70,7 +79,8 @@ class JsonTester {
         Json.Print(list);
     }
 
-    void TestPrint8() {
+    void TestPrint8()
+    {
         NodeList list = new NodeList();
 
         list.Add("漢字");
