@@ -25,30 +25,13 @@ class Utils
         return Int32.Parse(str);
     }
 
-    // very neive
     public static string ReadStdInAll()
     {
-        int max = 10_000;
-        byte[] bytes = new byte[max];
-        int i = 0;
-
-        using (Stream inStream = Console.OpenStandardInput()) {
-            byte[] bs = new byte[1];
-
-            while (true) {
-                int n = inStream.Read(bs, 0, 1);
-                if (n == 0) {
-                    break;
-                }
-                bytes[i] = bs[0];
-                i++;
-                if (i > max) {
-                    throw new Exception();
-                }
+        using (Stream stream = Console.OpenStandardInput()) {
+            using (StreamReader sr = new StreamReader(stream, System.Text.Encoding.UTF8)) {
+                return sr.ReadToEnd();
             }
         }
-
-        return System.Text.Encoding.UTF8.GetString(bytes, 0, i);
     }
 
     public static Exception Panic()
