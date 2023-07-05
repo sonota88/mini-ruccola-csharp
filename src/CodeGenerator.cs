@@ -292,7 +292,7 @@ class CodeGenerator {
         VarList fnArgs = VarList.From(funcDef.GetList(2));
         NodeList stmts = funcDef.GetList(3);
 
-        VarList lvars = new VarList();
+        var lvars = new VarList();
 
         Puts($"label {fnName}");
         AsmPrologue();

@@ -6,7 +6,7 @@ public class Lexer {
         string src = Utils.ReadStdInAll();
 
         int pos = 0;
-        RegExp re = new RegExp();
+        var re = new RegExp();
         int lineno = 1;
 
         while (pos < src.Length) {

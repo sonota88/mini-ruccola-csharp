@@ -4,7 +4,7 @@ using System.Collections.Generic;
 class Json {
 
     public static NodeList Parse(string json) {
-        Json parser = new Json();
+        var parser = new Json();
         (NodeList List, int _) retval = parser.ParseList(json);
         return retval.List;
     }
@@ -12,8 +12,8 @@ class Json {
     public (NodeList, int) ParseList(string json) {
         int pos = 1; // skip first '['
 
-        NodeList list = new NodeList();
-        RegExp re = new RegExp();
+        var list = new NodeList();
+        var re = new RegExp();
 
         while (pos < json.Length) {
             string rest = json.Substring(pos);

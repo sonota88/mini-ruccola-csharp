@@ -119,7 +119,7 @@ class NodeList {
     }
 
     public NodeList Rest() {
-        NodeList newlist = new NodeList();
+        var newlist = new NodeList();
         for (int i = 1; i < this.Count; i++) {
             newlist.Add(this.Get(i));
         }
@@ -203,7 +203,7 @@ class VarList {
     }
 
     public static VarList From(NodeList xs) {
-        VarList vars = new VarList();
+        var vars = new VarList();
         foreach (Node node in xs.Data) {
             vars.Add(node.Strval);
         }

@@ -35,7 +35,7 @@ class Parser {
     }
 
     private NodeList ParseArgs() {
-        NodeList args = new NodeList();
+        var args = new NodeList();
 
         if (Peek().Str == ")") {
             return args;
@@ -89,7 +89,7 @@ class Parser {
 
             Node rhs = ParseExprFactor();
 
-            NodeList list = new NodeList();
+            var list = new NodeList();
             list.Add(op);
             list.Add(expr);
             list.Add(rhs);
@@ -100,7 +100,7 @@ class Parser {
     }
 
     private NodeList ParseReturn() {
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("return");
 
         Consume("return");
@@ -125,7 +125,7 @@ class Parser {
 
         Consume(";");
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("set");
         stmt.Add(varName);
         stmt.Add(expr);
@@ -140,7 +140,7 @@ class Parser {
         NodeList args = ParseArgs();
         Consume(")");
 
-        NodeList funcall = new NodeList();
+        var funcall = new NodeList();
         funcall.Add(fnName);
         funcall.AddAll(args);
         return funcall;
@@ -153,7 +153,7 @@ class Parser {
 
         Consume(";");
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("call");
         stmt.Add(funcall);
         return stmt;
@@ -171,7 +171,7 @@ class Parser {
 
         Consume(";");
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("call_set");
         stmt.Add(varName);
         stmt.Add(funcall);
@@ -189,7 +189,7 @@ class Parser {
         NodeList stmts = ParseStmts();
         Consume("}");
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("while");
         stmt.Add(cond);
         stmt.Add(stmts);
@@ -207,7 +207,7 @@ class Parser {
         NodeList stmts = ParseStmts();
         Consume("}");
 
-        NodeList whenClause = new NodeList();
+        var whenClause = new NodeList();
         whenClause.Add(expr);
         whenClause.AddAll(stmts);
         return whenClause;
@@ -216,14 +216,14 @@ class Parser {
     private NodeList ParseCase() {
         Consume("case");
 
-        NodeList whenClauses = new NodeList();
+        var whenClauses = new NodeList();
 
         while (Peek().Str == "when") {
             NodeList whenClause = _ParseWhenClause();
             whenClauses.Add(whenClause);
         }
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("case");
         stmt.AddAll(whenClauses);
         return stmt;
@@ -239,7 +239,7 @@ class Parser {
         Consume(")");
         Consume(";");
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("_cmt");
         stmt.Add(comment);
         return stmt;
@@ -251,7 +251,7 @@ class Parser {
         Consume(")");
         Consume(";");
 
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("_debug");
         return stmt;
     }
@@ -272,7 +272,7 @@ class Parser {
     }
 
     private NodeList ParseStmts() {
-        NodeList stmts = new NodeList();
+        var stmts = new NodeList();
         while (Peek().Str != "}") {
             stmts.Add(ParseStmt());
         }
@@ -281,7 +281,7 @@ class Parser {
     }
 
     private NodeList ParseVar() {
-        NodeList stmt = new NodeList();
+        var stmt = new NodeList();
         stmt.Add("var");
 
         Consume("var");
@@ -303,7 +303,7 @@ class Parser {
     }
 
     private NodeList ParseFuncDef() {
-        NodeList fnDef = new NodeList();
+        var fnDef = new NodeList();
         Consume("func");
 
         string fnName = Peek().Str;
@@ -315,7 +315,7 @@ class Parser {
 
         Consume("{");
 
-        NodeList stmts = new NodeList();
+        var stmts = new NodeList();
         while (Peek().Str != "}") {
             if (Peek().Str == "var") {
                 stmts.Add(ParseVar());
@@ -339,7 +339,7 @@ class Parser {
     }
 
     private NodeList ParseTopStmts() {
-        NodeList topStmts = new NodeList();
+        var topStmts = new NodeList();
         topStmts.Add("top_stmts");
 
         while (!IsEnd()) {
