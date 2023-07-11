@@ -1,9 +1,10 @@
 using System;
 using System.Diagnostics;
 
-public class Compiler {
-
-    static public void Main(string[] args) {
+public class Compiler
+{
+    static public void Main(string[] args)
+    {
         if (args.Length >= 1) {
             // ok
         } else {
@@ -24,5 +25,4 @@ public class Compiler {
             throw new Exception("invalid command");
         }
     }
-
 }
