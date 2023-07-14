@@ -308,7 +308,6 @@ class Parser
 
         string varName = Peek().Str;
         Bump();
-
         stmt.Add(varName);
 
         if (Peek().Str == "=") {
