@@ -20,17 +20,17 @@ cd mini-ruccola-csharp
 
 ```
   $ LANG=C wc -l src/*.cs src/lib/{Types,Utils}.cs
-  389 src/CodeGenerator.cs
+  422 src/CodeGenerator.cs
    28 src/Compiler.cs
-   70 src/Lexer.cs
-  402 src/Parser.cs
-  221 src/lib/Types.cs
-   78 src/lib/Utils.cs
- 1188 total
+   73 src/Lexer.cs
+  430 src/Parser.cs
+  242 src/lib/Types.cs
+   66 src/lib/Utils.cs
+ 1261 total
 
   $ cat src/*.cs src/lib/{Types,Utils}.cs | grep -v '^ *//' | wc -l
-1182
+1256
 
   $ wc -l src/lib/Json.cs
-101 src/lib/Json.cs
+106 src/lib/Json.cs
 ```
