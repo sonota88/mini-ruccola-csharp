@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-enum NodeType
-{
-    INT, STR, LIST
-}
+enum NodeType { INT, STR, LIST }
 
 class Node
 {
@@ -79,9 +76,7 @@ class NodeList
 
     public int Count
     {
-        get {
-            return Data.Count;
-        }
+        get { return Data.Count; }
     }
 
     public NodeList()
@@ -155,10 +150,7 @@ class NodeList
     }
 }
 
-enum TokenKind
-{
-    INT, STR, KW, SYM, IDENT
-}
+enum TokenKind { INT, STR, KW, SYM, IDENT }
 
 class Token
 {
