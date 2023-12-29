@@ -30,7 +30,7 @@ class CodeGenerator
     {
         Puts("  pop reg_b");
         Puts("  pop reg_a");
-        Puts("  mul");
+        Puts("  mul reg_b");
     }
 
     private void _GenExpr_eq_neq(VarList fnArgs, VarList lvars, Node expr, bool isEq)
