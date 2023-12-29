@@ -51,17 +51,17 @@ class CodeGenerator
         Puts($"  jump_eq {labelThen}");
 
         if (isEq) {
-            Puts("  mov 0 reg_a");
+            Puts("  mov reg_a 0");
         } else {
-            Puts("  mov 1 reg_a");
+            Puts("  mov reg_a 1");
         }
         Puts($"  jump {labelEnd}");
 
         Puts($"label {labelThen}");
         if (isEq) {
-            Puts("  mov 1 reg_a");
+            Puts("  mov reg_a 1");
         } else {
-            Puts("  mov 0 reg_a");
+            Puts("  mov reg_a 0");
         }
 
         Puts($"label {labelEnd}");
@@ -107,16 +107,16 @@ class CodeGenerator
     {
         switch (expr.Type) {
             case NodeType.INT:
-                Puts($"  mov {expr.Intval} reg_a");
+                Puts($"  mov reg_a {expr.Intval}");
                 break;
             case NodeType.STR:
                 string varName = expr.Strval;
                 if (lvars.Includes(varName)) {
                     int disp = LvarDisp(lvars, varName);
-                    Puts($"  mov [bp:{disp}] reg_a");
+                    Puts($"  mov reg_a [bp:{disp}]");
                 } else if (fnArgs.Includes(varName)) {
                     int disp = FnArgDisp(fnArgs, varName);
-                    Puts($"  mov [bp:{disp}] reg_a");
+                    Puts($"  mov reg_a [bp:{disp}]");
                 } else {
                     Utils.Puts_e(varName);
                     throw Utils.Panic();
@@ -147,7 +147,7 @@ class CodeGenerator
 
         if (lvars.Includes(varName)) {
             int disp = LvarDisp(lvars, varName);
-            Puts($"  mov reg_a [bp:{disp}]");
+            Puts($"  mov [bp:{disp}] reg_a");
         } else {
             Utils.Puts_e(varName);
             Utils.Puts_e(lvars.ToString());
@@ -193,7 +193,7 @@ class CodeGenerator
         _GenCall(fnArgs, lvars, funcall);
 
         int disp = LvarDisp(lvars, varName);
-        Puts($"  mov reg_a [bp:{disp}]");
+        Puts($"  mov [bp:{disp}] reg_a");
     }
 
     private void GenWhile(VarList fnArgs, VarList lvars, NodeList stmt)
@@ -211,7 +211,7 @@ class CodeGenerator
         Puts($"label {labelBegin}");
 
         GenExpr(fnArgs, lvars, condExpr);
-        Puts("  mov 0 reg_b");
+        Puts("  mov reg_b 0");
         Puts("  compare");
 
         Puts($"  jump_eq {labelEnd}");
@@ -241,7 +241,7 @@ class CodeGenerator
             NodeList stmts = whenClause.Rest();
 
             GenExpr(fnArgs, lvars, cond);
-            Puts("  mov 0 reg_b");
+            Puts("  mov reg_b 0");
             Puts("  compare");
 
             Puts($"  jump_eq {labelEndWhenHead}_{whenIdx}");
@@ -400,12 +400,12 @@ class CodeGenerator
     private void AsmPrologue()
     {
         Puts("  push bp");
-        Puts("  mov sp bp");
+        Puts("  mov bp sp");
     }
 
     private void AsmEpilogue()
     {
-        Puts("  mov bp sp");
+        Puts("  mov sp bp");
         Puts("  pop bp");
     }
 
