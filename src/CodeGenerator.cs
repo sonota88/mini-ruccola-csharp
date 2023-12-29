@@ -23,7 +23,7 @@ class CodeGenerator
     {
         Puts("  pop reg_b");
         Puts("  pop reg_a");
-        Puts("  add");
+        Puts("  add reg_a reg_b");
     }
 
     private void _GenExpr_mult()
