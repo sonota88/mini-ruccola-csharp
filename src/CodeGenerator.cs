@@ -176,7 +176,7 @@ class CodeGenerator
         _GenVmComment($"call  {funcallName}");
         Puts($"  call {funcallName}");
 
-        Puts($"  add_sp {funcallArgs.Count}");
+        Puts($"  add sp {funcallArgs.Count}");
     }
 
     private void GenCall(VarList fnArgs, VarList lvars, NodeList stmt)
@@ -300,7 +300,7 @@ class CodeGenerator
 
     private void GenVar(VarList fnArgs, VarList lvars, NodeList stmt)
     {
-        Puts("  add_sp -1");
+        Puts("  add sp -1");
 
         if (stmt.Count == 3) {
             string varName = stmt.GetStr(1);
