@@ -47,7 +47,7 @@ class CodeGenerator
         Puts("  pop reg_b");
         Puts("  pop reg_a");
 
-        Puts("  compare");
+        Puts("  cmp");
         Puts($"  je {labelThen}");
 
         if (isEq) {
@@ -212,7 +212,7 @@ class CodeGenerator
 
         GenExpr(fnArgs, lvars, condExpr);
         Puts("  mov reg_b 0");
-        Puts("  compare");
+        Puts("  cmp");
 
         Puts($"  je {labelEnd}");
 
@@ -242,7 +242,7 @@ class CodeGenerator
 
             GenExpr(fnArgs, lvars, cond);
             Puts("  mov reg_b 0");
-            Puts("  compare");
+            Puts("  cmp");
 
             Puts($"  je {labelEndWhenHead}_{whenIdx}");
 
