@@ -48,7 +48,7 @@ class CodeGenerator
         Puts("  pop reg_a");
 
         Puts("  compare");
-        Puts($"  jump_eq {labelThen}");
+        Puts($"  je {labelThen}");
 
         if (isEq) {
             Puts("  mov reg_a 0");
@@ -214,7 +214,7 @@ class CodeGenerator
         Puts("  mov reg_b 0");
         Puts("  compare");
 
-        Puts($"  jump_eq {labelEnd}");
+        Puts($"  je {labelEnd}");
 
         GenStmts(fnArgs, lvars, stmts);
 
@@ -244,7 +244,7 @@ class CodeGenerator
             Puts("  mov reg_b 0");
             Puts("  compare");
 
-            Puts($"  jump_eq {labelEndWhenHead}_{whenIdx}");
+            Puts($"  je {labelEndWhenHead}_{whenIdx}");
 
             GenStmts(fnArgs, lvars, stmts);
 
