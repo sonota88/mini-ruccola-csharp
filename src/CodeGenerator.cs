@@ -55,7 +55,7 @@ class CodeGenerator
         } else {
             Puts("  mov reg_a 1");
         }
-        Puts($"  jump {labelEnd}");
+        Puts($"  jmp {labelEnd}");
 
         Puts($"label {labelThen}");
         if (isEq) {
@@ -218,7 +218,7 @@ class CodeGenerator
 
         GenStmts(fnArgs, lvars, stmts);
 
-        Puts($"  jump {labelBegin}");
+        Puts($"  jmp {labelBegin}");
 
         Puts($"label {labelEnd}");
         Puts("");
@@ -248,7 +248,7 @@ class CodeGenerator
 
             GenStmts(fnArgs, lvars, stmts);
 
-            Puts($"  jump {labelEnd}");
+            Puts($"  jmp {labelEnd}");
 
             Puts($"label {labelEndWhenHead}_{whenIdx}");
         }
