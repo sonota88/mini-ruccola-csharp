@@ -22,7 +22,7 @@ readonly MAX_ID_COMPILE=27 # 27
 
 ERRS=""
 
-readonly RUNNER_CMD="mono --debug bin/mrclc"
+readonly RUNNER_CMD="src/bin/Debug/net8.0/mrclc"
 
 run_test_utils() {
   $RUNNER_CMD test/test_utils.sh
@@ -60,7 +60,10 @@ setup() {
 }
 
 build() {
-  rake build
+  (
+    cd src
+    dotnet build
+  )
   local st=$?
   if [ $st -ne 0 ]; then
     echo "build failed" >&2

@@ -1,4 +1,5 @@
-/bin/
-
-*.exe
 z_*
+
+# dotnet
+/src/bin/
+/src/obj/
