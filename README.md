@@ -5,6 +5,9 @@ https://qiita.com/sonota88/items/c0a5bf76d7eb3aa4c507
 
 
 ```
+  $ apt show mono-devel 2>/dev/null | grep Version
+Version: 6.8.0.105+dfsg-3.6ubuntu2
+
   $ mcs -help | grep VERSION
    -sdk:VERSION         Specifies SDK version of referenced assemblies
                         VERSION can be one of: 2, 4, 4.5 (default) or a custom value
